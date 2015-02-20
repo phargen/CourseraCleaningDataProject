@@ -2,22 +2,22 @@ library(plyr)
 
 # Read activity labels and features for later use in providing
 # descriptive activity names and descriptive variable (column) names
-activities <- read.table(file="~/Dataset/activity_labels.txt",
+activities <- read.table(file="activity_labels.txt",
                          col.names=c("ActivityNum","Activity"), 
                          colClasses=c("integer", "character"))
-features <- read.table(file="~/Dataset/features.txt",
+features <- read.table(file="features.txt",
                        col.names=c("FeatureNum","Feature"), 
                        colClasses=c("integer", "character"))
 
 ##### Number 4 #####
 # load subject and activity identification columns
-subject_test <- read.table(file="~/Dataset/test/subject_test.txt",
+subject_test <- read.table(file="test/subject_test.txt",
                            col.names="SubjectNum", colClasses = "integer")
-subject_train <- read.table(file="~/Dataset/train/subject_train.txt",
+subject_train <- read.table(file="train/subject_train.txt",
                            col.names="SubjectNum", colClasses = "integer")
-activity_test <- read.table(file="~/Dataset/test/y_test.txt",
+activity_test <- read.table(file="test/y_test.txt",
                            col.names="ActivityNum", colClasses = "integer")
-activity_train <- read.table(file="~/Dataset/train/y_train.txt",
+activity_train <- read.table(file="train/y_train.txt",
                             col.names="ActivityNum", colClasses = "integer")
 
 ##### Number 2 & 4 #####
@@ -28,9 +28,9 @@ colToKeep <- grepl("mean|std",features[[2]], ignore.case=TRUE)
 classes <- sapply(colToKeep, FUN = function(x) { if(x) "numeric" else "NULL" })
 
 # read feature data from cases files
-cases_test <- read.table(file="~/Dataset/test/X_test.txt",
+cases_test <- read.table(file="test/X_test.txt",
                          col.names=features[[2]], colClasses = classes)
-cases_train <- read.table(file="~/Dataset/train/X_train.txt",
+cases_train <- read.table(file="train/X_train.txt",
                             col.names=features[[2]], colClasses = classes)
 
 ##### Number 1 #####
@@ -67,4 +67,4 @@ all_combined <- arrange(all_combined, Activity, SubjectNum)
 averageOfEachFeaturePerActivityAndSubject <- ddply(all_combined, .(Activity, SubjectNum), colwise(mean))
 
 write.table(averageOfEachFeaturePerActivityAndSubject,
-            file="~/Dataset/getdata-011_projTidy.txt", row.names=FALSE)
+            file="getdata-011_projTidy.txt", row.names=FALSE)
